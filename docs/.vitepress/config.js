@@ -20,6 +20,7 @@ export default defineConfig({
       { text: "AI Module", link: "/ai-quality-module" },
       { text: "QA & Testing", link: "/quality-assurance" },
       { text: "Rebuild / Deploy", link: "/deployment-guide" },
+      { text: "Glossary", link: "/glossary" },
     ],
 
     sidebar: [
@@ -50,6 +51,7 @@ export default defineConfig({
         items: [
           { text: "Quality Assurance & Testing", link: "/quality-assurance" },
           { text: "Rebuild & Deployment Guide", link: "/deployment-guide" },
+          { text: "Glossary", link: "/glossary" },
         ],
       },
     ],
