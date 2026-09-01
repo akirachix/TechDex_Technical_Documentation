@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 export default defineConfig({
   base: "/TechDex_Technical_Documentation/",
-  title: "Ishuko Docs",
+  title: "Ishuko Technical Documentation",
   description:
     "Technical documentation for the Ishuko maize grading and selling platform",
   lastUpdated: true,
@@ -11,24 +11,12 @@ export default defineConfig({
   themeConfig: {
     logo: "/logo.png",
 
-    nav: [
-      { text: "Overview", link: "/overview" },
-      { text: "Core Features", link: "/core-features" },
-      { text: "Mobile", link: "/frontend-mobile" },
-      { text: "Web Dashboard", link: "/frontend-web" },
-      { text: "Backend", link: "/backend" },
-      { text: "Database & Security", link: "/database-security" },
-      { text: "AI Module", link: "/ai-quality-module" },
-      { text: "QA & Testing", link: "/quality-assurance" },
-      { text: "Rebuild / Deploy", link: "/deployment-guide" },
-      { text: "Glossary", link: "/glossary" },
-    ],
-
     sidebar: [
       {
         text: "Product",
         items: [
           { text: "Overview", link: "/overview" },
+          { text: "Architecture", link: "/architecture" },
           { text: "Core Features", link: "/core-features" },
         ],
       },
@@ -43,7 +31,8 @@ export default defineConfig({
         text: "Platform",
         items: [
           { text: "Backend (FastAPI)", link: "/backend" },
-          { text: "Database & Security", link: "/database-security" },
+          { text: "Database", link: "/database" },
+          { text: "Security", link: "/security" },
           { text: "AI Quality Assessment Module", link: "/ai-quality-module" },
         ],
       },

@@ -135,7 +135,78 @@ This glossary defines the key technical, business, and platform-specific terms u
 | **Role**                   | A predefined set of permissions assigned to a user.                                                                                                                         |
 | **Permission**             | An individual access rule determining what an authorized user can do within the platform.                                                                                   |
 
+## Product & Business Terms
+
+This table covers everything related to marketplace mechanics, grading rules, user personas, and financial flows.
+
+| Term Name                              | Definition                                                                                                                                                             |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cooperative (Coop)**                 | A group of smallholder maize farmers represented on Ishuko by a Cooperative Manager. They register a depot location, upload produce for grading, and receive payments. |
+| **Cooperative Manager / Leader**       | The primary seller-side user who registers the coop, logs harvests, runs camera grading sessions, and collects escrowed payments.                                      |
+| **Wholesale Buyer**                    | A corporate or retail entity that browses the marketplace, buys graded produce in bulk, deposits escrow funds, and collects the batch.                                 |
+| **Platform Administrator**             | Monitors system activity and manages users via the admin dashboard; has exclusive access to admin-only API routes.                                                     |
+| **Marketplace**                        | The in-app storefront where buyers can browse and purchase graded, AI-verified produce listings.                                                                       |
+| **Quality Assessment Report**          | The output shown to cooperatives combining the assigned grade, defect percentages, confidence score, and calculated price.                                             |
+| **Grade A / B / C / D / Reject**       | The five quality tiers assigned to a batch, ranging from Excellent (A) down to Poor (D) or Reject (unfit for use).                                                     |
+| **Defect Class**                       | The four quality dimensions measured for grading: Insect/Pest Damage, Discolored/Moldy grain, Broken/Chipped Grains, and Extraneous Matter.                            |
+| **Weakest-Link Evaluation**            | A grading rule where a batch's final grade is capped at its worst-performing defect class, regardless of how well other classes scored.                                |
+| **Confidence Score**                   | A percentage on the Quality Assessment Report showing how certain the AI model is about its assigned grade.                                                            |
+| **Pricing Engine / Dynamic Valuation** | Logic converting a grade into a price using live market data (WFP HDX) multiplied by a grade-based modifier.                                                           |
+| **Platform Fee**                       | A 2% transaction fee deducted by Ishuko from the total sale amount before the cooperative is paid.                                                                     |
+| **Escrow / Escrow Account**            | A temporary holding account that safely secures a buyer's payment until pickup is confirmed.                                                                           |
+| **OTP / 6-Digit Code / Token**         | A single-use verification code given to the buyer after deposit; handed to the manager at pickup to release escrow. Expires in 7 days.                                 |
+| **Cancellation Penalty**               | A 5% deduction applied if a buyer fails to collect an order before the OTP expires; compensates the coop for the hold.                                                 |
+| **Settlement / Handover**              | The final transaction step where the buyer collects produce, provides the OTP, and instantly releases escrowed funds to the coop.                                      |
+| **Pickup Date**                        | The buyer-selected collection date, restricted to within 7 days of placing the order.                                                                                  |
+| **Listing Status**                     | The lifecycle stages of a listing: PENDING_GRADE → MARKETPLACE (or REJECTED) → RESERVED → COMPLETED.                                                                   |
+| **Order Status**                       | The lifecycle stages of a buyer's order: AWAITING_DEPOSIT → ESCROWED → COLLECTED (or EXPIRED).                                                                         |
+| **Escrow Status**                      | The lifecycle stages of a payment: HELD → DISBURSED (or REFUNDED).                                                                                                     |
+| **Persona**                            | Fictional, research-informed user profiles (like Mark the manager or Amina the buyer) used to guide design choices around real needs.                                  |
+| **Jobs To Be Done (JTBD)**             | A framework detailing the core tasks users "hire" Ishuko to do (e.g., Quality Assessment, Pricing, Payment, Pickup).                                                   |
+| **Stakeholder Categories**             | PRD mapping: Players (active users), Context Setters (payment providers), Subjects (farmers), and Crowd (broader supporters).                                          |
+
 ---
+
+## AI & Computer Vision Terms
+
+This table isolates the concepts and tools powering the image processing and grain assessment features.
+
+| Term Name                               | Definition                                                                                                                          |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Computer Vision Quality Grading**     | The automated system feature using AI image analysis instead of manual inspection to assign objective produce grades.               |
+| **YOLOv8 (Ultralytics YOLOv8-cls)**     | The image classification neural network used to categorize each cropped maize kernel into a specific defect or good category.       |
+| **OpenCV**                              | The computer vision library handling image preprocessing, including contour detection and cropping individual kernels.              |
+| **Two-Step Edge Processing Pipeline**   | Grading architecture: Step 1 uses OpenCV to segment a photo into kernel crops; Step 2 feeds crops into YOLOv8 to preserve accuracy. |
+| **Contour Segmentation**                | An OpenCV technique (thresholding + findContours) used to isolate each kernel's boundary for individual classification.             |
+| **Training Datasets (RoboFlow/Kaggle**) | The external maize-image datasets used to train the YOLOv8 classification model.                                                    |
+
+---
+
+## Backend, Infrastructure & Tooling Terms
+
+This table outlines the technical stack, database patterns, security configurations, and deployment tools.
+
+| Term Name                             | Definition                                                                                                                                             |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **FastAPI**                           | The Python web framework powering Ishuko's core backend API and the AI grading microservice.                                                           |
+| **Layered Architecture**              | Code organization pattern: Models (DB entities) → Repositories (data access) → Services (business logic) → Schemas (validation) → Routers (endpoints). |
+| **SQLAlchemy**                        | The Python ORM used to map backend models directly to PostgreSQL database tables.                                                                      |
+| **Alembic**                           | The lightweight migration tool used to version and apply schema changes to the database (alembic upgrade head).                                        |
+| **PostgreSQL**                        | Ishuko's primary relational database, hosted via the Heroku Postgres add-on.                                                                           |
+| **JWT (JSON Web Token)**              | A signed token issued at login via python-jose for secure API request authentication; expires after JWT_EXPIRE_DAYS.                                   |
+| **bcrypt / Passlib**                  | The secure hashing algorithm and library used to encrypt passwords so plain text is never stored in the database.                                      |
+| **CORS**                              | Browser security mechanism that strictly limits which frontend origins can call the backend API via an explicit allow-list.                            |
+| **Multipart Form Data**               | The HTTP payload format used by POST /produce_listings/ to send both data fields and binary image files together.                                      |
+| **Webhook (Flutterwave)**             | An inbound HTTP callback from Flutterwave confirming a payment event to update the internal payment table status.                                      |
+| **Mobile Money (Airtel/Zamtel/MTN)**  | Telecom-linked payment rails used in Zambia; a user's mobile phone_number is directly tied to this account.                                            |
+| **Heroku**                            | The hosting platform for the FastAPI backend and PostgreSQL database, deployed via git push heroku main.                                               |
+| **Vercel**                            | The hosting platform for the Next.js admin web dashboard, featuring auto-deploys and PR preview builds.                                                |
+| **GCP Cloud Run**                     | Hosts the containerized AI grading microservice as a stateless Linux container via GitHub Actions.                                                     |
+| **WFP HDX**                           | The external World Food Programme dataset providing live Zambia maize market prices to fuel the dynamic pricing engine.                                |
+| **Config Vars / Env Variables**       | Deployment secrets (DATABASE_URL, JWT_SECRET_KEY, etc.) kept safe from source control and configured per-platform.                                     |
+| **CI (Continuous Integration)**       | Automated GitHub pipelines running linting and unit tests (flutter analyze, Jest, etc.) on every Pull Request.                                         |
+| **UAT (User Acceptance Testing)**     | Final testing phase verifying system alignment with user needs, featuring regression testing to protect existing report logic.                         |
+| **ERD (Entity Relationship Diagram)** | A diagram illustrating the relationships between the 6 core tables: user, cooperative, produce_listing, ai_grading_result, payment, and order.         |
 
 ## Related Documentation
 
