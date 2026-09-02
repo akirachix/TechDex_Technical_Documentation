@@ -191,7 +191,7 @@ JWT bearer tokens (`python-jose`) with bcrypt password hashing (`passlib`).
 ## Code Standards
 
 - **Naming:** `snake_case.py` for backend modules (e.g. `user.py`,
-  `user_repository.py`); `PascalCase.tsx` for React components.
+  `user_repository.py`).
 - **Python:** `snake_case` for variables/functions, `PascalCase` for classes (e.g.
   `CORSMiddleware`, `CryptContext`).
 - **TypeScript/React:** `camelCase` for variables/functions, `PascalCase` for components/types.
