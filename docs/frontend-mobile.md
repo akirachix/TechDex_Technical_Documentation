@@ -3,74 +3,137 @@
 This is the interface that cooperative leaders and wholesale buyers interact with on the mobile
 app. The interface differs based on the user persona (cooperative manager vs. wholesale buyer).
 
-## Cooperative Journey
+## Overview
+
+The Ishuko mobile app is the primary, customer-facing surface of the platform — it serves two
+distinct personas from a single codebase: **Cooperative Managers**, who register their cooperative,
+run AI grading sessions, and manage listings; and **Wholesale Buyers**, who browse the marketplace,
+place orders, and complete pickup. Role is determined at signup and drives which screen set a user
+sees after authentication.
+
+## Tech Stack
+
+|                       |                                                                                              |
+| --------------------- | -------------------------------------------------------------------------------------------- |
+| **Framework**         | Flutter                                                                                      |
+| **Language**          | Dart                                                                                         |
+| **Routing**           | `go_router`                                                                                  |
+| **State/data access** | `http` client + a `viewmodel/` layer                                                         |
+| **Local storage**     | `shared_preferences` (non-sensitive), `flutter_secure_storage` (sensitive — e.g. auth token) |
+| **Auth provider**     | Email/password + `google_sign_in`                                                            |
+| **Location**          | `geolocator` + `geocoding`                                                                   |
+| **Camera/media**      | `image_picker` (camera-only in this flow — see [Security Measures](#security-measures))      |
+
+Full dependency list: see [Dependencies](#dependencies-pubspec-yaml) below.
+
+## Screens
 
 <div class="ishuko-screens">
   <figure>
-    <img src="/screenshots/mobile/splash.png" alt="Screen" />
+    <img src="/screenshots/mobile/onboarding.png" alt="Onboarding Carousel" />
+    <figcaption>Onboarding carousel</figcaption>
   </figure>
   <figure>
-    <img src="/screenshots/mobile/screen1.png" alt="Screen" />
+    <img src="/screenshots/mobile/sign-up.png" alt="Sign Up Screen" />
+    <figcaption>Sign Up (Buyer / Cooperative toggle)</figcaption>
   </figure>
   <figure>
-    <img src="/screenshots/mobile/screen2.png" alt="Screen" />
+    <img src="/screenshots/mobile/login.png" alt="Login Screen" />
+    <figcaption>Login Flow</figcaption>
   </figure>
   <figure>
-    <img src="/screenshots/mobile/screen3.png" alt="Screen" />
+    <img src="/screenshots/mobile/forgot-password.png" alt="Forgot Password Screen" />
+    <figcaption>Forgot password flow</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen4.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/otp-verification.png" alt="OTP Verification Screen" />
+    <figcaption>OTP verification</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen5.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/allow-location.png" alt="Allow Location Screen" />
+    <figcaption>Location permission</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen6.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/password-reset.png" alt="Password Reset Screen" />
+    <figcaption>Password reset completion</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen7.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile-buyer/buyer-home.png" alt="Buyer Home Dashboard" />
+    <figcaption>Buyer home dashboard</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen8.png" alt="Screen" />
+</div>
+
+### Cooperative screens
+
+<div class="ishuko-screens">
+  <figure>
+    <img src="/screenshots/mobile/listings-history.png" alt="Listings History" />
+    <figcaption>Listings history</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen9.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/orders-history.png" alt="Orders History" />
+    <figcaption>Orders history</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen10.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/payment-history.png" alt="Payment History" />
+    <figcaption>Payment history</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen11.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/photo-grading.png" alt="3-Photo Grading Input" />
+    <figcaption>3-photo grading input</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen12.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/ai-analysis.png" alt="AI Analysis Engine" />
+    <figcaption>AI analysis pipeline</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen13.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/ai-quality-report.png" alt="AI Quality Report" />
+    <figcaption>AI Quality Report</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen14.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/listing-preview.png" alt="Listing Preview" />
+    <figcaption>Listing preview</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen15.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/pickup-verification.png" alt="Pickup Verification" />
+    <figcaption>Pickup verification (6-digit code)</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen16.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/coop-profile.png" alt="Cooperative Profile" />
+    <figcaption>Cooperative Profile</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen17.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile/coop-support.png" alt="Cooperative Support" />
+    <figcaption>Support console</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen18.png" alt="Screen" />
+</div>
+
+### Buyer screens
+
+<div class="ishuko-screens">
+  <figure>
+    <img src="/screenshots/mobile-buyer/marketplace-browse.png" alt="Marketplace Browse" />
+    <figcaption>Marketplace browse</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen19.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile-buyer/shopping-cart.png" alt="Shopping Cart" />
+    <figcaption>Shopping cart</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen20.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile-buyer/pickup-date-picker.png" alt="Pickup Date Picker" />
+    <figcaption>Pickup date picker (7-day max)</figcaption>
   </figure>
-   <figure>
-    <img src="/screenshots/mobile/screen21.png" alt="Screen" />
+  <figure>
+    <img src="/screenshots/mobile-buyer/notifications.png" alt="Notifications Screen" />
+    <figcaption>Notifications feed</figcaption>
+  </figure>
+  <figure>
+    <img src="/screenshots/mobile-buyer/buyer-profile.png" alt="Buyer Profile" />
+    <figcaption>Profile panel</figcaption>
+  </figure>
+  <figure>
+    <img src="/screenshots/mobile-buyer/buyer-support.png" alt="Contact Support" />
+    <figcaption>Contact support</figcaption>
   </figure>
 </div>
 
@@ -94,62 +157,6 @@ app. The interface differs based on the user persona (cooperative manager vs. wh
 6. **Handover & Settlement** — On arrival at the depot, the buyer inspects the batch and hands over
    the 6-digit code. Submitting the code instantly triggers settlement scripts, releasing escrowed
    payment to the seller.
-
-## Buyer Journey
-
-<div class="ishuko-screens">
-  <figure>
-    <img src="/screenshots/mobile-buyer/screen1.png" alt="Screen" />
-  </figure>
-  <figure>
-    <img src="/screenshots/mobile-buyer/screen2.png" alt="Screen" />
-  </figure>
-  <figure>
-    <img src="/screenshots/mobile-buyer/screen3.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen4.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen5.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen6.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen7.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen8.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen9.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen10.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen11.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen12.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen13.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen14.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen15.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen16.png" alt="Screen" />
-  </figure>
-   <figure>
-    <img src="/screenshots/mobile-buyer/screen17.png" alt="Screen" />
-  </figure>
-</div>
 
 ## How It Works — Wholesale Buyer
 
@@ -194,6 +201,89 @@ centralized FastAPI/AI backend, and the public app marketplace.
 - At pickup, the buyer provides the code to the cooperative leader, who submits it via
   `POST /transactions/{id}/release`. If the hash matches, `escrow_status` toggles to `RELEASED`
   and funds are pushed to the seller's mobile money balance.
+
+## Architecture Layers
+
+The `lib/` folder follows a lightweight MVVM-flavored layering rather than a strict framework:
+
+- **`models/`** — plain data classes for API responses (`grade_report_model.dart`,
+  `home_model.dart`, `payment_model.dart`) — no business logic, just shape.
+- **`viewmodel/`** — mediates between a screen and its services (e.g. `signup_viewmodel.dart`
+  drives the sign-up screen's validation and submission state).
+- **`services/`** — talks to the outside world: the API (`camera_services.dart`'s upload path,
+  `cart_service.dart`), device capabilities (`location_services.dart`), and OS-level features
+  (`notification_service.dart`).
+- **`screens/`** — the UI layer, split by persona (`buyer/`, `cooperative/`) plus shared
+  auth/onboarding screens at the top level.
+- **`widgets/` / `components/`** — small, reusable UI pieces shared across screens (e.g.
+  `app_bottom_nav_bar.dart`).
+
+## Core Components
+
+- **Routing (`go_router`)** — declarative, role-aware navigation; routes buyers into `screens/buyer/`
+  and cooperative managers into `screens/cooperative/` after authentication.
+- **API service** — a shared `http`-based client used by the various `services/` files to call the
+  FastAPI backend, attaching the stored JWT to authenticated requests.
+- **Auth service** — backs login, signup, Google sign-in, and the forgot-password/OTP/reset flow;
+  persists the session token via `flutter_secure_storage` rather than `shared_preferences`.
+- **Sync/notification service** (`notification_service.dart`) — surfaces OTP codes, pickup
+  reminders, and order-status updates pushed from the backend.
+
+## Security Measures
+
+- **Camera-only capture, no gallery import** — the grading flow overrides the native image picker
+  configuration to disable gallery selection entirely, so a cooperative manager can only submit
+  freshly captured photos, not pre-existing/potentially stale or tampered images.
+- **Exactly-3-image validation** — the grading session enforces exactly 3 images client-side before
+  the "Grade" action is enabled, matching the AI pipeline's expected input (see
+  [AI Quality Assessment Module](/ai-quality-module)).
+- **Secure token storage** — the JWT issued at login is stored via `flutter_secure_storage`
+  (OS-level encrypted storage), not plain `shared_preferences`, so a lost/rooted device doesn't
+  trivially leak an active session.
+- **Field-level input validation** — email format, phone number format, and exact 6-digit OTP
+  input are all validated client-side before submission (see [Quality Assurance → Unit
+  Testing](/quality-assurance)).
+- **Location permission is explicit and scoped** — GPS is requested only during cooperative
+  registration, with a clear in-app explanation of why ("Your location will be used to direct
+  buyers to your depot for produce pickup").
+
+## Installation
+
+**Prerequisites**
+
+- **Flutter SDK** (stable channel) and **Dart** (bundled with Flutter)
+- Android Studio / Xcode for platform-specific builds, or a configured emulator/simulator
+- A running backend instance (local or the hosted API) reachable from the device/emulator
+
+**Setup**
+
+```bash
+cd ishuko
+flutter pub get
+```
+
+Create a `.env` file (loaded via `flutter_dotenv`) with the backend base URL:
+
+```
+API_BASE_URL=http://localhost:8000
+```
+
+Run the app:
+
+```bash
+flutter run
+```
+
+## Troubleshooting
+
+| Symptom                                             | Likely Cause / Fix                                                                                                                                           |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Camera won't open during grading                    | Camera permission was denied — check `permission_handler` request flow and OS-level app permissions                                                          |
+| "Allow Location" screen loops or GPS never resolves | Location permission denied, or device location services are off — required only for cooperative registration                                                 |
+| OTP not received                                    | SMS/notification gateway delay, or the code already expired (7-day window) — use the in-app "Resend" action                                                  |
+| Grading stuck on "Calculating Grade"                | AI service cold start or network timeout — verify the AI microservice health endpoint is reachable (see [Deployment Guide](/deployment-guide))               |
+| Google Sign-In fails silently                       | Missing/incorrect OAuth client configuration for the platform (Android/iOS) in `google_sign_in` setup                                                        |
+| App can't reach the backend locally                 | `API_BASE_URL` in `.env` points to `localhost` but the app is running on a physical device/emulator that can't resolve it — use the machine's LAN IP instead |
 
 ## Folder Structure (`ishuko/`)
 

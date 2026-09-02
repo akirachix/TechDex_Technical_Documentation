@@ -20,6 +20,39 @@ quality assessments via computer vision and list graded products on an integrate
   </figure>
 </div>
 
+## API Overview
+
+|                        |                                                                                                                                                      |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Framework**          | FastAPI (Python 3.10+)                                                                                                                               |
+| **Architecture style** | REST, layered (models → repositories → services → schemas → routers)                                                                                 |
+| **Base path**          | Each resource is mounted under its own prefix, e.g. `/users`, `/cooperatives`, `/produce_listings`, `/orders`, `/payments`, `/transactions`, `/auth` |
+| **Response format**    | JSON                                                                                                                                                 |
+| **Auth**               | JWT bearer token (`Authorization: Bearer <token>`) on all protected routes                                                                           |
+
+## Prerequisites
+
+To run the backend locally you'll need:
+
+- **Python 3.10+**
+- **`uv`** (or `venv`) for virtual environment management
+- **PostgreSQL** running locally or a reachable connection string
+- **`pip`** for installing dependencies from `requirements.txt`
+- A `.env` file populated per [Backend Setup](#backend-setup) below
+
+## Endpoint Categories
+
+| Resource           | Router prefix         | Covers                                                                      |
+| ------------------ | --------------------- | --------------------------------------------------------------------------- |
+| Auth               | `/auth`               | Login, forgot-password, verify-reset-pin, reset-password                    |
+| Users              | `/users`              | Registration, profile, role-scoped access                                   |
+| Cooperatives       | `/cooperatives`       | Cooperative registration and depot/location data                            |
+| Produce Listings   | `/produce_listings`   | Creating and browsing marketplace listings                                  |
+| AI Grading Results | `/ai_grading_results` | Persisted output from the AI grading pipeline                               |
+| Orders             | `/orders`             | Order placement, pickup date validation, order status                       |
+| Payments           | `/payments`           | Escrow deposits, Flutterwave webhook intake, escrow status                  |
+| Transactions       | `/transactions`       | OTP-based pickup verification and settlement (`/transactions/{id}/release`) |
+
 ## Tech Stack
 
 | Layer           | Technology                                                                                 |
@@ -157,16 +190,16 @@ JWT bearer tokens (`python-jose`) with bcrypt password hashing (`passlib`).
 
 ## Code Standards
 
-- **Naming:** `snake_case.py` for backend modules (e.g. `battery_router.py`,
-  `user_repository.py`); `PascalCase.tsx` for React components.
+- **Naming:** `snake_case.py` for backend modules (e.g. `user.py`,
+  `user_repository.py`).
 - **Python:** `snake_case` for variables/functions, `PascalCase` for classes (e.g.
   `CORSMiddleware`, `CryptContext`).
 - **TypeScript/React:** `camelCase` for variables/functions, `PascalCase` for components/types.
 - **Folder & file structure:** strict layer-per-resource pattern —
-  `probe/models`, `probe/repositories`, `probe/services`, `probe/schemas`, `probe/routers`, with
+  `ishuko/models`, `ishuko/repositories`, `ishuko/services`, `ishuko/schemas`, `ishuko/routers`, with
   `database.py` and `main.py` at the project root. New code for a resource goes in the matching
-  layer file (e.g. a new battery endpoint → `probe/routers/battery_router.py`, calling
-  `probe/services`, which calls `probe/repositories`).
+  layer file (e.g. a new battery endpoint → `ishuko/routers/user.py`, calling
+  `ishuko/services`, which calls `ishuko/repositories`).
 
 ## Release Checklist
 

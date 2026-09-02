@@ -25,6 +25,30 @@ farmers still have limited access to market and buyers due to poor quality produ
 exploitation by middlemen. Commercial buyers remain highly reluctant to source directly from
 small scale farmers due to a critical lack of quality assurance.
 
+## Key Features
+
+Ishuko's core differentiators are covered in full on the [Core Features](/core-features) tab —
+in short: AI computer-vision grading, weakest-link quality thresholds, a live-market-price pricing
+engine, escrow-backed transactions, OTP-verified pickup, and a grade-first marketplace.
+
+## Workflow Overview
+
+At a high level, a single transaction flows through five stages:
+
+1. **Grade** — a cooperative manager captures exactly 3 photos of a produce sample; the AI pipeline
+   assigns a grade (A–D) and generates a Quality Assessment Report.
+2. **List** — the graded batch is priced automatically (live market price × grade modifier) and
+   published to the marketplace.
+3. **Order** — a wholesale buyer browses the marketplace, places an order for a full listed
+   quantity, and selects a pickup date within 7 days.
+4. **Pay into escrow** — the buyer deposits payment, which is held in escrow rather than paid
+   directly to the cooperative; the buyer receives the depot location and a 6-digit pickup code.
+5. **Verify & settle** — at the depot, the buyer hands the cooperative manager the code; a
+   successful match instantly releases escrowed funds to the cooperative and closes the order.
+
+See [Architecture → Data Flow](/architecture) for the same journey traced through system
+components, and [Core Features](/core-features) for the mechanics behind each stage.
+
 ## Product Objectives
 
 The Ishuko mobile app aims to solve for:
