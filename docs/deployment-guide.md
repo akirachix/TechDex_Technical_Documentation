@@ -40,8 +40,7 @@ Building the pieces in this order minimizes rework, since each layer depends on 
 
 Stand up PostgreSQL and model the 6 core tables first — everything else depends on this shape:
 `user`, `cooperative`, `produce_listing`, `ai_grading_result`, `payment`, `order`. Full column
-definitions are in [Database & Security](/database-security). Use Alembic from day one so every
-schema change is a tracked migration.
+definitions are in [Database](/database). Use Alembic from day one so every schema change is a tracked migration.
 
 ### Step 2 — Backend core (auth + CRUD)
 
