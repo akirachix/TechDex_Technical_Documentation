@@ -196,10 +196,10 @@ JWT bearer tokens (`python-jose`) with bcrypt password hashing (`passlib`).
   `CORSMiddleware`, `CryptContext`).
 - **TypeScript/React:** `camelCase` for variables/functions, `PascalCase` for components/types.
 - **Folder & file structure:** strict layer-per-resource pattern —
-  `probe/models`, `probe/repositories`, `probe/services`, `probe/schemas`, `probe/routers`, with
+  `ishuko/models`, `ishuko/repositories`, `ishuko/services`, `ishuko/schemas`, `ishuko/routers`, with
   `database.py` and `main.py` at the project root. New code for a resource goes in the matching
-  layer file (e.g. a new battery endpoint → `probe/routers/battery_router.py`, calling
-  `probe/services`, which calls `probe/repositories`).
+  layer file (e.g. a new battery endpoint → `ishuko/routers/battery_router.py`, calling
+  `ishuko/services`, which calls `ishuko/repositories`).
 
 ## Release Checklist
 
