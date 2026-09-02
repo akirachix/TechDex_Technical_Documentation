@@ -190,7 +190,7 @@ JWT bearer tokens (`python-jose`) with bcrypt password hashing (`passlib`).
 
 ## Code Standards
 
-- **Naming:** `snake_case.py` for backend modules (e.g. `battery_router.py`,
+- **Naming:** `snake_case.py` for backend modules (e.g. `user.py`,
   `user_repository.py`); `PascalCase.tsx` for React components.
 - **Python:** `snake_case` for variables/functions, `PascalCase` for classes (e.g.
   `CORSMiddleware`, `CryptContext`).
@@ -198,7 +198,7 @@ JWT bearer tokens (`python-jose`) with bcrypt password hashing (`passlib`).
 - **Folder & file structure:** strict layer-per-resource pattern —
   `ishuko/models`, `ishuko/repositories`, `ishuko/services`, `ishuko/schemas`, `ishuko/routers`, with
   `database.py` and `main.py` at the project root. New code for a resource goes in the matching
-  layer file (e.g. a new battery endpoint → `ishuko/routers/battery_router.py`, calling
+  layer file (e.g. a new battery endpoint → `ishuko/routers/user.py`, calling
   `ishuko/services`, which calls `ishuko/repositories`).
 
 ## Release Checklist

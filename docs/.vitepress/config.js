@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 export default defineConfig({
   base: "/TechDex_Technical_Documentation/",
-  title: "Ishuko Technical Documentation",
+  title: "Ishuko Docs",
   description:
     "Technical documentation for the Ishuko maize grading and selling platform",
   lastUpdated: true,
