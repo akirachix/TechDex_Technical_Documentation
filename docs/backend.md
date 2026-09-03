@@ -13,7 +13,7 @@ quality assessments via computer vision and list graded products on an integrate
 
 ## SAD
 
-<div class="ishuko-screens">
+<div class="ishuko-diagram">
   <figure>
     <img src="/screenshots/SAD.png" alt="SAD" />
     <figcaption>System Architecture Diagram</figcaption>

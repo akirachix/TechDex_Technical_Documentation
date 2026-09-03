@@ -31,7 +31,12 @@ the three client surfaces (Cooperative mobile, Buyer mobile, Admin web) reach th
 WAF and API security layer, how the application modules talk to external providers, and where each
 security control sits.
 
-![Ishuko System Architecture Diagram — cybersecurity view](/diagrams/system-architecture-diagram.png)
+<div class="ishuko-diagram">
+  <figure>
+    <img src="/diagrams/system-architecture-diagram.png" alt="SAD" />
+    <figcaption>System Architecture Diagram</figcaption>
+  </figure>
+</div>
 
 ## Component Breakdown
 
