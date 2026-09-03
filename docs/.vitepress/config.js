@@ -7,6 +7,17 @@ export default defineConfig({
     "Technical documentation for the Ishuko maize grading and selling platform",
   lastUpdated: true,
   cleanUrls: true,
+  head: [
+    [
+      "link",
+      {
+        rel: "icon",
+        type: "image/x-icon",
+        sizes: "32x32",
+        href: "/TechDex_Technical_Documentation/favicon.ico",
+      },
+    ],
+  ],
 
   themeConfig: {
     logo: "/logo.png",
